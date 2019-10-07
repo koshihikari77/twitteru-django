@@ -13,8 +13,7 @@ django-debug-toolbar = "*"
 django = "*"
 pipfile = "*"
 django-environ = "*"
-django-allauth = "*"
+django-bootstrap4 = "*"
 
 [requires]
 python_version = "3.7.4"
-
