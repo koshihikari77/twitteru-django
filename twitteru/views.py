@@ -2,7 +2,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-from django.utils import timezone
+from django.contrib.auth import login
+from .forms import SignupForm
+from django.views.generic import CreateView
 
 from .models import User, Post, Like
 
@@ -48,6 +50,21 @@ def ajax_like(request, *args, **kwargs):
     like.post = post
     like.save()
     return redirect(request.META['HTTP_REFERER'])
+
+
+class SignupView(CreateView):
+    form_class = SignupForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/signup.html'
+    template_name = 'registration/signup.html'
+
+    def form_valid(self, form):
+        # バリデーションが通ったあとの処理を記述
+        # self.objectにsave()されたユーザーオブジェクトが格納される
+        # 独自処理を終えたら継承元のメソッドに処理を渡す
+        valid = super().form_valid(form)
+        login(self.request, self.object)
+        return valid
 
 
 """
