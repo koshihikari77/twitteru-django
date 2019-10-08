@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <aside class="col-12 col-md-3 border left-navbar">
+        <nav class="nav flex-column mt-5">
+            <a class="nav-link active" href="#">Active</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link disabled" href="#">Disabled</a>
+        </nav>
+    </aside>
+    <div class="col-12 col-md-6">
+        <div class="row border-bottom home">
+            <span>ホーム</span>
+        </div>
+        {% block timeline %}
+
+        {% endblock %}
+    </div>
+    <aside class="col-12 col-md-3 border">
+        <form class="navbar-form" role="search">
+            <div class="input-group">
+                <input type="text" class="form-control input-search" placeholder="Search Twitter" name="srch-term"
+                    id="srch-term">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-search" type="submit"><i
+                            class="octicon octicon-search navbar-search-icon"></i></button>
+                </div>
+            </div>
+        </form>
+
+        <!-- おすすめトレンド一覧 -->
+        <div class="list-group mt-5">
+            <a href="#" class="list-group-item text-white bg-dark">
+                Catego
+            </a>
+        </div>
+
+        <!-- おすすめユーザー一覧-->
+        <div class="list-group mt-5">
+            <a href="#" class="list-group-item text-white bg-dark">
+                Tag
+            </a>
+        </div>
+    </aside>
+</div>
+{% endblock %}
