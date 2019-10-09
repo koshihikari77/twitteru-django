@@ -14,6 +14,7 @@ django = "*"
 pipfile = "*"
 django-environ = "*"
 django-bootstrap4 = "*"
+django-allauth = "*"
 
 [requires]
 python_version = "3.7.4"

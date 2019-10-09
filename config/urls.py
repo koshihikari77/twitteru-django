@@ -22,8 +22,7 @@ from twitteru import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('accounts/signup/', views.SignupView.as_view(), name='signup'),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('allauth.urls')),
     path('twitteru/', include('twitteru.urls')),
 ]
 
