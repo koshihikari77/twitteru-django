@@ -1,3 +1,14 @@
+.btn-search-bar {
+  border-radius: 100px;
+  border: 1px solid #1da1f2;
+  color: #fff;
+  background-color: #4AB3F4;
+  border-color: transparent;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+
 /* left column */
 .left-navbar a {
   margin-left: 10px;

@@ -1,18 +1,12 @@
 {% extends 'twitteru/timeline_base.html' %}
 
 
-{% block timeline %}
-
-{% for u in user.usersettings_set.all %}
-<p>{{ u.nickname }}</p>
-<p>{{ u.self_introduction }}</p>
-{% endfor %}
-<form action="{% url 'twitteru:follow' pk=user.pk %}" method="post">
-    {% csrf_token %}
-    <button class="btn-search-bar" type="submit">follow</button>
+<form method="POST" class="post-form">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="save btn btn-default">Save</button>
 </form>
-<ol class="tweet-list">
 
+<ol class="tweet-list">
 
     {% for post in user.post_set.all|dictsortreversed:"posted_date" %}
     <li class="tweet-card">

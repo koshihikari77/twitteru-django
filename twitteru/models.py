@@ -1,12 +1,14 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from imagekit.models import ImageSpecField, ProcessedImageField
+from imagekit.processors import ResizeToFill
+from django.contrib.auth import get_user_model
 # Create your models here.
 
 
 class UserSettings(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+    user = models.ForeignKey(get_user_model(),
                              on_delete=models.CASCADE)
     nickname = models.CharField(max_length=50, null=True)
     self_introduction = models.CharField(max_length=200)
@@ -18,7 +20,7 @@ class UserSettings(models.Model):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+    user = models.ForeignKey(get_user_model(),
                              on_delete=models.CASCADE)
     posted_date = models.DateTimeField()
     text = models.CharField(max_length=140)
@@ -53,4 +55,8 @@ class Reply(models.Model):
 
 class MediaFile(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    media_url = models.CharField(max_length=200)
+    src = models.ImageField()
+    thumbnail = ImageSpecField(source='src',
+                               processors=[ResizeToFill(250, 250)],
+                               format='JPEG',
+                               options={'quality': 60})

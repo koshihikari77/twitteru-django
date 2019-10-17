@@ -160,3 +160,10 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 #######
 #Email#
 #######
+
+
+###############
+# Media files #
+###############
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
