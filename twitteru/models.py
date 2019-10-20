@@ -53,10 +53,12 @@ class Reply(models.Model):
         Post, on_delete=models.CASCADE, related_name='replaying_post')
 
 
-class MediaFile(models.Model):
+class Image(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    src = models.ImageField()
+    src = models.ImageField(upload_to='media')
+    """
     thumbnail = ImageSpecField(source='src',
                                processors=[ResizeToFill(250, 250)],
                                format='JPEG',
                                options={'quality': 60})
+                               """

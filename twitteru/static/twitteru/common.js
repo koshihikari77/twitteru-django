@@ -30,23 +30,49 @@ $.ajaxSetup({
     }
 });
 
-// 送信ボタンで呼ばれる
-$('#ajax-add-post').on('submit', e => {
-    // デフォルトのイベントをキャンセルし、ページ遷移しないように!
-    e.preventDefault();
-
+$(function () {
+    const this_ = $(".like-btn");
+    const likeUrl = this_.attr("data-href"); // ユーザーのステータス情報
+    const post_id = this_.attr("data-post_id");//いいねされたtweetのid
+    const like_btn_id = "#like_btn_" + String(post_id);
     $.ajax({
-        'url': '{% url "twitteru:ajax_like" %}',
-        'type': 'POST',
-        'data': {
-            'title': $('#id_title').val(),  // 記事タイトル
-        },
-        'dataType': 'json'
-    }).done(response => {
-        // <p>はろー</p>のような要素を作成し、それを記事一覧エリアに追加し、入力欄をクリアする。
-        const p = $('<p>', { text: response.title });
-        $('#posts').prepend(p);
-        $('#id_title').val('');
-    });
+        url: likeUrl,
+        method: "GET",
+        data: { "status": 0, "post_id": post_id },　// ユーザーのステータス情報を変更しないように
+        success: function (data) {
+            if (data.liked) {　// もしユーザーが既にいいねをしていた場合
+                $(like_btn_id).addClass("on");　// ボタンをピンクにする
+            }
+        }, error: function (error) {
+            console.log("error")
+        }
+    })
+});
 
+$(".like-btn").click(function (e) {
+    e.preventDefault()
+    const this_ = $(this);
+    const like_cnt = this_.children("span");
+    const likeUrl = this_.attr("data-href");
+    const post_id = this_.attr("data-post_id");
+    if (likeUrl) {
+        $.ajax({
+            url: likeUrl,
+            method: "GET",
+            data: { "status": 1, "post_id": post_id }, //　いいねが押されましたと伝える
+            success: function (data) {
+                let change_like = like_cnt.text();
+                console.log(change_like);
+                if (data.liked) {　//　もしいいねされていたら
+                    this_.removeClass("on");//　ボタンのデザインを初期状態に
+                    like_cnt.text(String(data.liked_num));
+                } else {　　//　もしいいねされていなかったら
+                    this_.addClass("on");　//　ボタンをピンクに
+                    like_cnt.text(String(data.liked_num));　//　いいねの数を１追加
+                }
+            }, error: function (error) {
+                console.log("error")
+            }
+        })
+    }
 });

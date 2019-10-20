@@ -1,11 +1,14 @@
 {% extends 'twitteru/timeline_base.html' %}
 
+{% load static %}
+{% load twitteru_tags %}
 
-<form method="POST" class="post-form">{% csrf_token %}
+{% block timeline %}
+
+<form enctype="multipart/form-data" method="POST" class="post-form">{% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="save btn btn-default">Save</button>
+    <button type="submit" class="save btn btn-default">Tweet</button>
 </form>
-
 <ol class="tweet-list">
 
     {% for post in user.post_set.all|dictsortreversed:"posted_date" %}
@@ -38,15 +41,13 @@
                 <a class="tweet-footer-btn">
                     <i class="octicon octicon-sync" aria-hidden="true"></i><span> 64</span>
                 </a>
-                <a class="tweet-footer-btn" style="display:inline-flex">
-                    <form action="{% url 'twitteru:like' post.pk %}" method="post">
-                        {% csrf_token %}
-                        <button class="like-button" type="submit">
-                            <i class="octicon octicon-heart" aria-hidden="true"></i>
-                        </button>
-                    </form>
-                    <span>{{ post.liked_num }}</span>
+
+                <a id="like_btn_{{ post.pk }}" class="like-btn {{ likes|is_in_likes:post }}"
+                    data-href="{% url 'twitteru:ajax_like' %}" data-post_id="{{ post.pk }}">
+                    <i class="octicon octicon-heart" aria-hidden="true"></i>
+                    <span class="like-cnt">{{ post.liked_num }}</span>
                 </a>
+
                 <a class="tweet-footer-btn">
                     <i class="octicon octicon-mail" aria-hidden="true"></i>
                 </a>
@@ -55,4 +56,8 @@
     </li>
     {% endfor %}
 </ol>
+
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'twitteru/common.js' %}"></script>
 {% endblock %}
