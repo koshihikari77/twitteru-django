@@ -12,9 +12,3 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('text',)
-
-
-ImageFormset = forms.inlineformset_factory(
-    Post, Image, fields='__all__',
-    extra=1,
-)

@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 
-class UserSettings(models.Model):
+class Profile(models.Model):
     user = models.ForeignKey(get_user_model(),
                              on_delete=models.CASCADE)
     nickname = models.CharField(max_length=50, null=True)
@@ -17,6 +17,7 @@ class UserSettings(models.Model):
     tweet_open_flag = models.BooleanField()
     direct_message_flag = models.BooleanField()
     sensitive_flag = models.BooleanField()
+    followed_num = models.IntegerField()
 
 
 class Post(models.Model):

@@ -1,11 +1,23 @@
 .btn-search-bar {
   border-radius: 100px;
   border: 1px solid #1da1f2;
-  color: #fff;
-  background-color: #4AB3F4;
   border-color: transparent;
   font-weight: bold;
   font-size: 14px;
+}
+
+.follow_on {
+  border: 1px solid #1da1f2;
+  color: #fff;
+  background-color: #4AB3F4;
+  border-color: transparent;
+}
+
+.follow_off {
+  border: 1px solid #1da1f2;
+  color: #4AB3F4;
+  background-color: #fff;
+  border-color: transparent;
 }
 
 
@@ -74,7 +86,7 @@
   margin-left: 8px;
 }
 
-.on {background: #F75D5D; color: #fff;}
+.like_on {background: #F75D5D; color: #fff;}
 /* right column */
 .navbar-form {
   margin-top: 10px;

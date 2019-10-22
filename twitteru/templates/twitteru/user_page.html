@@ -1,16 +1,20 @@
 {% extends 'twitteru/timeline_base.html' %}
 
+{% load static %}
+{% load twitteru_tags %}
 
 {% block timeline %}
 
-{% for u in user.usersettings_set.all %}
+{% for u in user.profile_set.all %}
 <p>{{ u.nickname }}</p>
 <p>{{ u.self_introduction }}</p>
 {% endfor %}
-<form action="{% url 'twitteru:follow' pk=user.pk %}" method="post">
-    {% csrf_token %}
-    <button class="btn-search-bar" type="submit">follow</button>
-</form>
+
+<a id="follow_{{ followed_user_id }}" class="follow_btn {{ follows|is_in_follows:followed_user_id }}"
+    data-href_follow="{% url 'twitteru:ajax_follow' %}" data-followed_user_id="{{ followed_user_id }}">
+    <span class="btn-search-bar">follow</span>
+</a>
+
 <ol class="tweet-list">
 
 
@@ -44,14 +48,10 @@
                 <a class="tweet-footer-btn">
                     <i class="octicon octicon-sync" aria-hidden="true"></i><span> 64</span>
                 </a>
-                <a class="tweet-footer-btn" style="display:inline-flex">
-                    <form action="{% url 'twitteru:like' post.pk %}" method="post">
-                        {% csrf_token %}
-                        <button class="like-button" type="submit">
-                            <i class="octicon octicon-heart" aria-hidden="true"></i>
-                        </button>
-                    </form>
-                    <span>{{ post.liked_num }}</span>
+                <a id="like_btn_{{ post.pk }}" class="like-btn {{ likes|is_in_likes:post }}"
+                    data-href_like="{% url 'twitteru:ajax_like' %}" data-post_id="{{ post.pk }}">
+                    <i class="octicon octicon-heart" aria-hidden="true"></i>
+                    <span class="like-cnt">{{ post.liked_num }}</span>
                 </a>
                 <a class="tweet-footer-btn">
                     <i class="octicon octicon-mail" aria-hidden="true"></i>
@@ -61,4 +61,7 @@
     </li>
     {% endfor %}
 </ol>
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'twitteru/common.js' %}"></script>
 {% endblock %}
