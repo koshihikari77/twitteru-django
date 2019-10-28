@@ -30,14 +30,35 @@ $.ajaxSetup({
     }
 });
 
+$(".tweet-card").click(function () {
+    const this_ = $(this);
+    const contentUrl = this_.attr("data-content-href");
+    window.location.href = contentUrl;
+});
+
+
+$(".tweet-card").hover(function () {
+    $(this).css('background', "#EEFFFF")
+}, function () {
+    $(this).css('background', "")
+});
+
+
+$(".reply-btn").click(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const this_ = $(this);
+    $("#reply-modal").modal("show");
+})
 
 
 $(".like-btn").click(function (e) {
     e.preventDefault()
+    e.stopPropagation()
     const this_ = $(this);
     const like_cnt = this_.children("span");
-    const likeUrl = this_.attr("data-href");
-    const post_id = this_.attr("data-post_id");
+    const likeUrl = this_.attr("data-href-like");
+    const post_id = this_.attr("data-post-id");
     if (likeUrl) {
         $.ajax({
             url: likeUrl,
@@ -47,10 +68,10 @@ $(".like-btn").click(function (e) {
                 let change_like = like_cnt.text();
                 console.log(change_like);
                 if (data.liked) {　//　もしいいねされていたら
-                    this_.removeClass("like_on");//　ボタンのデザインを初期状態に
+                    this_.removeClass("like-on");//　ボタンのデザインを初期状態に
                     like_cnt.text(String(data.liked_num));
                 } else {　　//　もしいいねされていなかったら
-                    this_.addClass("like_on");　//　ボタンをピンクに
+                    this_.addClass("like-on");　//　ボタンをピンクに
                     like_cnt.text(String(data.liked_num));　//　いいねの数を１追加
                 }
             }, error: function (error) {
@@ -61,12 +82,12 @@ $(".like-btn").click(function (e) {
 });
 
 
-
-$(".btn-search-bar").submit(function (e) {
+$(".follow-btn").submit(function (e) {
     e.preventDefault()
     const this_ = $(this);
-    const followUrl = this_.attr("data-href");
-    const followed_user_id = this_.attr("data-followed_user_id");
+    const followUrl = this_.attr("data-href-follow");
+    const followed_user_id = this_.attr("data-followed-user-id");
+    console.log(followUrl)
     if (followUrl) {
         $.ajax({
             url: followUrl,
@@ -74,9 +95,9 @@ $(".btn-search-bar").submit(function (e) {
             data: { "status": 1, "followed_user_id": followed_user_id }, //　いいねが押されましたと伝える
             success: function (data) {
                 if (data.followed) {　//　もしいいねされていたら
-                    this_.removeClass("follow_on");//　ボタンのデザインを初期状態に
+                    this_.removeClass("follow-on");//　ボタンのデザインを初期状態に
                 } else {　　//　もしいいねされていなかったら
-                    this_.addClass("follow_on");　//　ボタンをピンクに
+                    this_.addClass("follow-on");　//　ボタンをピンクに
                 }
             }, error: function (error) {
                 console.log("error")
@@ -84,3 +105,4 @@ $(".btn-search-bar").submit(function (e) {
         })
     }
 });
+

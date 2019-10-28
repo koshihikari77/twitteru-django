@@ -1,0 +1,32 @@
+<div class="modal fade" id="reply-modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="tweet-content">
+                <div class="tweet-header">
+                    <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
+                        <span class="fullname">
+                            <strong>Jon Vadillo</strong>
+                        </span>
+                        <span class="username">@{{ post.user.username }}</span>
+                        <span class="tweet-time">- {{ post.posted_date }}</span>
+                    </a>
+                </div>
+                <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
+                    <img class="tweet-card-avatar"
+                        src="https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_bigger.jpg" alt="">
+                </a>
+                <div class="tweet-text">
+                    <p class="" lang="es" data-aria-label-part="0">
+                        {{ post.text }}
+                    </p>
+                </div>
+            </div>
+            <form action="{% url 'twitteru:reply' post.pk %}" enctype="multipart/form-data" method="POST"
+                class="post-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-default">Reply</button>
+            </form>
+        </div>
+    </div>
+</div>

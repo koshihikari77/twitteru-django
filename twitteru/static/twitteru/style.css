@@ -6,14 +6,14 @@
   font-size: 14px;
 }
 
-.follow_on {
+.follow-on {
   border: 1px solid #1da1f2;
   color: #fff;
   background-color: #4AB3F4;
   border-color: transparent;
 }
 
-.follow_off {
+.follow-off {
   border: 1px solid #1da1f2;
   color: #4AB3F4;
   background-color: #fff;
@@ -53,6 +53,12 @@
   font-weight: normal;
 }
 
+.tweet-text-detail {
+  font-size: 25px;
+  line-height: 20px;
+  font-weight: normal;
+}
+
 .tweet-card-avatar {
   border-radius: 50%;
   height: 48px;
@@ -74,19 +80,9 @@
   margin-left: 8px;
 }
 
-.like-btn {
-  margin-right: 30px;
-}
-.like-btn i, .like-btn span {
-  color: #657786;
-  font-size: 16px;
-  white-space: nowrap;
-}
-.like-btn span {
-  margin-left: 8px;
-}
 
-.like_on {background: #F75D5D; color: #fff;}
+
+.like-on {background: #F75D5D; color: #fff;}
 /* right column */
 .navbar-form {
   margin-top: 10px;

@@ -17,6 +17,7 @@ django-bootstrap4 = "*"
 django-allauth = "*"
 pillow = "*"
 django-imagekit = "*"
+django-bootstrap-modal-forms = "*"
 
 [requires]
 python_version = "3.7.4"

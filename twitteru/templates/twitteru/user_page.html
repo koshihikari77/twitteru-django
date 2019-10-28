@@ -10,58 +10,16 @@
 <p>{{ u.self_introduction }}</p>
 {% endfor %}
 
-<a id="follow_{{ followed_user_id }}" class="follow_btn {{ follows|is_in_follows:followed_user_id }}"
-    data-href_follow="{% url 'twitteru:ajax_follow' %}" data-followed_user_id="{{ followed_user_id }}">
-    <span class="btn-search-bar">follow</span>
-</a>
+<form id="follow-{{ followed_user_id }}" class="follow-btn {{ follows|is_in_follows:followed_user_id }}"
+    data-href-follow="{% url 'twitteru:ajax_follow' %}" data-followed-user-id="{{ followed_user_id }}">
+    <button class="btn-search-bar" type="submit">follow</button>
+</form>
 
 <ol class="tweet-list">
 
-
     {% for post in user.post_set.all|dictsortreversed:"posted_date" %}
-    <li class="tweet-card">
-        <div class="tweet-content">
-            <div class="tweet-header">
-                <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
-                    <span class="fullname">
-                        <strong>Jon Vadillo</strong>
-                    </span>
-                    <span class="username">@{{ post.user.username }}</span>
-                    <span class="tweet-time">- {{ post.posted_date }}</span>
-                </a>
-            </div>
-            <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
-                <img class="tweet-card-avatar"
-                    src="https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_bigger.jpg" alt="">
-            </a>
-            <div class="tweet-text">
-                <p class="" lang="es" data-aria-label-part="0">
-                    {{ post.text }}
-                </p>
-            </div>
-
-            <div class="tweet-footer">
-                <a class="tweet-footer-btn">
-                    <span class="octicon octicon-comment" aria-hidden="true"></span><span>
-                        18</span>
-                </a>
-                <a class="tweet-footer-btn">
-                    <i class="octicon octicon-sync" aria-hidden="true"></i><span> 64</span>
-                </a>
-                <a id="like_btn_{{ post.pk }}" class="like-btn {{ likes|is_in_likes:post }}"
-                    data-href_like="{% url 'twitteru:ajax_like' %}" data-post_id="{{ post.pk }}">
-                    <i class="octicon octicon-heart" aria-hidden="true"></i>
-                    <span class="like-cnt">{{ post.liked_num }}</span>
-                </a>
-                <a class="tweet-footer-btn">
-                    <i class="octicon octicon-mail" aria-hidden="true"></i>
-                </a>
-            </div>
-        </div>
-    </li>
+    {% include 'twitteru/post.html' %}
     {% endfor %}
+
 </ol>
-{% endblock %}
-{% block extra_js %}
-<script type="text/javascript" src="{% static 'twitteru/common.js' %}"></script>
 {% endblock %}

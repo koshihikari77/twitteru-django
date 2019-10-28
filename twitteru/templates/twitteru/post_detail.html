@@ -1,0 +1,35 @@
+{% load static %}
+{% load twitteru_tags %}
+
+<div class="tweet-card" data-content-href="{% url 'twitteru:post' pk=post.pk %}">
+    <div class="tweet-content">
+        <div class="tweet-header">
+            <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
+                <span class="fullname">
+                    <strong>Jon Vadillo</strong>
+                </span>
+                <p class="username">@{{ post.user.username }}</p>
+            </a>
+        </div>
+        <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
+            <img class="tweet-card-avatar"
+                src="https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_bigger.jpg" alt="">
+        </a>
+        <div class="tweet-text-detail">
+            <p class="" lang="es" data-aria-label-part="0">
+                {{ post.text }}
+            </p>
+        </div>
+
+        <p class="tweet-time">- {{ post.posted_date }}</p>
+
+        <div class="tweet-footer">
+            <a class="tweet-footer-btn">
+                <span> 64 retweeted</span>
+            </a>
+            <a class="tweet-footer-btn">
+                <span class="like-cnt">{{ post.liked_num }} liked</span>
+            </a>
+        </div>
+    </div>
+</div>

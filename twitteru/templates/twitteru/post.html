@@ -1,0 +1,53 @@
+{% load static %}
+
+{% load twitteru_tags %}
+
+<li class="tweet-card" data-content-href="{% url 'twitteru:post' pk=post.pk %}">
+    <div class="tweet-content">
+        <div class="tweet-header">
+            <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
+                <span class="fullname">
+                    <strong>Jon Vadillo</strong>
+                </span>
+                <span class="username">@{{ post.user.username }}</span>
+                <span class="tweet-time">- {{ post.posted_date }}</span>
+            </a>
+            {% if post.reply_flag %}
+            <p>
+                replied at {{ post|replied_user }}
+            </p>
+            {% endif %}
+        </div>
+        <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
+            <img class="tweet-card-avatar"
+                src="https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_bigger.jpg" alt="">
+        </a>
+        <div class="tweet-text">
+
+            <p class="" lang="es" data-aria-label-part="0">
+                {{ post.text }}
+            </p>
+        </div>
+
+        <div class="tweet-footer">
+            <a class="tweet-footer-btn reply-btn" data-toggle="modal" data-target="#testModal">
+                <span class="octicon octicon-comment" aria-hidden="true"></span>
+                <span>{{ post.replied_num }}</span>
+            </a>
+
+            <a class="tweet-footer-btn">
+                <i class="octicon octicon-sync" aria-hidden="true"></i><span> 64</span>
+            </a>
+            <a id="like-btn-{{ post.pk }}" class="tweet-footer-btn like-btn {{ likes|is_in_likes:post }}"
+                data-href-like="{% url 'twitteru:ajax_like' %}" data-post-id="{{ post.pk }}">
+                <i class="octicon octicon-heart" aria-hidden="true"></i>
+                <span class="like-cnt">{{ post.liked_num }}</span>
+            </a>
+            <a class="tweet-footer-btn">
+                <i class="octicon octicon-mail" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</li>
+
+{% include 'twitteru/reply_form.html' %}

@@ -1,0 +1,20 @@
+{% extends 'twitteru/timeline_base.html' %}
+
+{% load static %}
+{% load twitteru_tags %}
+
+{% block timeline %}
+
+
+{% include 'twitteru/post_detail.html' %}
+
+
+<ol class="tweet-list">
+
+    {% for post in replying_posts %}
+    {% include 'twitteru/post.html' %}
+    {% endfor %}
+
+</ol>
+{% endblock %}
+}

@@ -26,9 +26,9 @@ class Post(models.Model):
     posted_date = models.DateTimeField()
     text = models.CharField(max_length=140)
     liked_num = models.IntegerField(default=0)
-    replayed_num = models.IntegerField(default=0)
+    replied_num = models.IntegerField(default=0)
     retweeted_num = models.IntegerField(default=0)
-    replay_flag = models.BooleanField()
+    reply_flag = models.BooleanField()
 
     class Meta:
         ordering = ['-posted_date']
@@ -48,10 +48,10 @@ class Like(models.Model):
 
 
 class Reply(models.Model):
-    replayed_post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='replayed_post')
-    replaying_post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='replaying_post')
+    replied_post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='replied_post')
+    replying_post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='replying_post')
 
 
 class Image(models.Model):
