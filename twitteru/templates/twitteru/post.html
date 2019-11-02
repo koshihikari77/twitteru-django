@@ -6,22 +6,24 @@
     <div class="tweet-content">
         <div class="tweet-header">
             <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
+                <img class="tweet-card-avatar"
+                    src="https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_bigger.jpg" alt="">
+            </a>
+            <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
                 <span class="fullname">
                     <strong>Jon Vadillo</strong>
                 </span>
                 <span class="username">@{{ post.user.username }}</span>
                 <span class="tweet-time">- {{ post.posted_date }}</span>
             </a>
+
             {% if post.reply_flag %}
             <p>
                 replied at {{ post|replied_user }}
             </p>
             {% endif %}
+
         </div>
-        <a href="{% url 'twitteru:userpage' pk=post.user.pk %}">
-            <img class="tweet-card-avatar"
-                src="https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_bigger.jpg" alt="">
-        </a>
         <div class="tweet-text">
 
             <p class="" lang="es" data-aria-label-part="0">
@@ -38,7 +40,7 @@
             <a class="tweet-footer-btn">
                 <i class="octicon octicon-sync" aria-hidden="true"></i><span> 64</span>
             </a>
-            <a id="like-btn-{{ post.pk }}" class="tweet-footer-btn like-btn {{ likes|is_in_likes:post }}"
+            <a id="like-btn-{{ post.pk }}" class="tweet-footer-btn like-btn {{ liking_post_ids|is_in_likes:post.pk }}"
                 data-href-like="{% url 'twitteru:ajax_like' %}" data-post-id="{{ post.pk }}">
                 <i class="octicon octicon-heart" aria-hidden="true"></i>
                 <span class="like-cnt">{{ post.liked_num }}</span>

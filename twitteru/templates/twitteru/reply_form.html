@@ -21,6 +21,7 @@
                     </p>
                 </div>
             </div>
+
             <form action="{% url 'twitteru:reply' post.pk %}" enctype="multipart/form-data" method="POST"
                 class="post-form">
                 {% csrf_token %}

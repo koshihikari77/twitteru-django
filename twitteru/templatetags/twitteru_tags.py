@@ -4,18 +4,17 @@ register = template.Library()
 
 
 @register.filter
-def is_in_likes(likes, post):
-    result = likes.filter(post=post)
-    return bool(result)*"like-on"
+def is_in_likes(liking_post_ids, post_id):
+    return (post_id in liking_post_ids)*"like-on"
 
 
 @register.filter
-def is_in_follows(follows, user_pk):
-    result = follows.filter(followed_user__id=user_pk)
-    return bool(result)*"follow-on"
+def is_in_follows(following_user_ids, user_id):
+    return (user_id in following_user_ids)*"follow-on"
 
 
 @register.filter
 def replied_user(post):
-    replied_post = Post.objects.filter(replied_post__replied_post=post)
-    return replied_post[0].user
+    replied_post = Post.objects.all().filter(
+        replied_post_relation__replying_post=post).first()
+    return replied_post.user

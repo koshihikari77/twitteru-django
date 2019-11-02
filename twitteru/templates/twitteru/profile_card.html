@@ -1,17 +1,3 @@
-{% extends 'twitteru/timeline_base.html' %}
-
-{% load static %}
-{% load twitteru_tags %}
-
-{% block timeline %}
-
-{% for u in user.profile_set.all %}
-{{ u.nickname }}
-
-{{ u.self_introduction }}
-
-{% endfor %}
-
 <div class="twPc-div">
     <a class="twPc-bg twPc-block"></a>
 
@@ -63,58 +49,3 @@
         </div>
     </div>
 </div>
-
-<form id="follow-{{ followed_user_id }}" class="follow-btn {{ following_user_ids|is_in_follows:followed_user_id }}"
-    data-href-follow="{% url 'twitteru:ajax_follow' %}" data-followed-user-id="{{ followed_user_id }}">
-    <button class="btn-search-bar" type="submit">follow</button>
-</form>
-
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a href="#tweet-timeline" class="nav-link active" data-toggle="tab">Tweet</a>
-    </li>
-    <li class="nav-item">
-        <a href="#tweet-reply-timeline" class="nav-link" data-toggle="tab">Tweet&Reply</a>
-    </li>
-    <li class="nav-item">
-        <a href="#media-timeline" class="nav-link" data-toggle="tab">Media</a>
-    </li>
-    <li class="nav-item">
-        <a href="#like-timeline" class="nav-link" data-toggle="tab">Like</a>
-    </li>
-</ul>
-
-<div class="tab-content">
-    <div id="tweet-timeline" class="tab-pane active">
-        <ol class="tweet-list">
-            {% for post in posts|dictsortreversed:"posted_date" %}
-            {% include 'twitteru/post.html' %}
-            {% endfor %}
-        </ol>
-    </div>
-
-    <div id="tweet-reply-timeline" class="tab-pane">
-        <ol class="tweet-list">
-            {% for post in user.post_set.all|dictsortreversed:"posted_date" %}
-            {% include 'twitteru/post.html' %}
-            {% endfor %}
-        </ol>
-    </div>
-
-    <div id="media-timeline" class="tab-pane">
-        <ol class="tweet-list">
-            {% for post in user.post_set.all|dictsortreversed:"posted_date" %}
-            {% include 'twitteru/post.html' %}
-            {% endfor %}
-        </ol>
-    </div>
-
-    <div id="like-timeline" class="tab-pane">
-        <ol class="tweet-list">
-            {% for post in like_posts|dictsortreversed:"posted_date" %}
-            {% include 'twitteru/post.html' %}
-            {% endfor %}
-        </ol>
-    </div>
-</div>
-{% endblock %}

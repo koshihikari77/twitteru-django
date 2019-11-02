@@ -4,10 +4,9 @@
 <div class="row">
     <aside class="col-12 col-md-3 border left-navbar">
         <nav class="nav flex-column mt-5">
-            <a class="nav-link active" href="#">Active</a>
-            <a class="nav-link" href="#">Link</a>
-            <a class="nav-link" href="#">Link</a>
-            <a class="nav-link disabled" href="#">Disabled</a>
+            <a class="nav-link active" href="{% url 'twitteru:home' %}">Home</a>
+            <a class="nav-link" href="{% url 'twitteru:userpage' user.pk %}">Profile</a>
+            <a class="nav-link" href="#">Settings</a>
         </nav>
     </aside>
     <div class="col-12 col-md-6">

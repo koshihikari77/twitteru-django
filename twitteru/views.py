@@ -20,8 +20,19 @@ class UserPageView(generic.DetailView):
     template_name = "twitteru/user_page.html"
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super().get_context_data(**kwargs)
-        context["likes"] = Like.objects.filter(user=self.request.user)
+        context["liking_post_ids"] = Post.objects.filter(
+            liked_post_relation__user=user).values_list("id", flat=True)
+        context["followed_user_id"] = self.kwargs["pk"]
+        context["following_user_ids"] = get_user_model().objects.filter(
+            following_user_relation__following_user=user).values_list("id", flat=True)
+        context["posts"] = Post.objects.filter(
+            user=self.request.user).filter(reply_flag=False)
+
+        context["like_posts"] = Post.objects.filter(
+            liked_post_relation__user=get_user_model().objects.get(id=self.kwargs["pk"]))
+        context["form"] = TweetForm()
 
         return context
 
@@ -34,8 +45,10 @@ class PostPageView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         post = Post.objects.get(id=self.kwargs["pk"])
         context["replying_posts"] = Post.objects.filter(
-            replying_post__replied_post=post)
-        context["likes"] = Like.objects.filter(user=self.request.user)
+            replying_post_relation__replied_post=post)
+        context["liking_post_ids"] = Post.objects.filter(
+            liked_post_relation__user=self.request.user).values_list("id", flat=True)
+        context["form"] = TweetForm()
 
         return context
 
@@ -47,7 +60,8 @@ class UserHomeView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = TweetForm()
-        context["likes"] = Like.objects.filter(user=self.request.user)
+        context["liking_post_ids"] = Post.objects.filter(
+            liked_post_relation__user=self.request.user).values_list("id", flat=True)
 
         return context
 

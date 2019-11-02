@@ -36,22 +36,23 @@ class Post(models.Model):
 
 class Follow(models.Model):
     followed_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_user')
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_user_relation')
     following_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following_user')
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following_user_relation')
 
 
 class Like(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+                             on_delete=models.CASCADE, related_name='liking_user_relation')
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='liked_post_relation')
 
 
 class Reply(models.Model):
     replied_post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='replied_post')
+        Post, on_delete=models.CASCADE, related_name='replied_post_relation')
     replying_post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='replying_post')
+        Post, on_delete=models.CASCADE, related_name='replying_post_relation')
 
 
 class Image(models.Model):
