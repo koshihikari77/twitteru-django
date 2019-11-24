@@ -8,16 +8,15 @@ flake8 = "*"
 pylint = "*"
 autopep8 = "*"
 django-debug-toolbar = "*"
-
 [packages]
-django = "*"
-pipfile = "*"
+django = "==2.2.2" 
+djangorestframework = "*"
 django-environ = "*"
-django-bootstrap4 = "*"
 django-allauth = "*"
+psycopg2-binary = "*"
 pillow = "*"
 django-imagekit = "*"
+django-bootstrap4 = "*"
 django-bootstrap-modal-forms = "*"
-
 [requires]
 python_version = "3.7.4"
