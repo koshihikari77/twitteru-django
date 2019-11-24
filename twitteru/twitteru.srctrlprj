@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <source_groups>
+        <source_group_d64c9fa1-975e-4f03-80c5-032ef7bf2fb3>
+            <name>Python Source Group</name>
+            <source_extensions>
+                <source_extension>.py</source_extension>
+            </source_extensions>
+            <source_paths>
+                <source_path>apps.py</source_path>
+                <source_path>admin.py</source_path>
+                <source_path>forms.py</source_path>
+                <source_path>models.py</source_path>
+                <source_path>tests.py</source_path>
+                <source_path>urls.py</source_path>
+                <source_path>views.py</source_path>
+            </source_paths>
+            <status>enabled</status>
+            <type>Python Source Group</type>
+        </source_group_d64c9fa1-975e-4f03-80c5-032ef7bf2fb3>
+    </source_groups>
+    <version>8</version>
+</config>

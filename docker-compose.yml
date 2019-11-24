@@ -1,0 +1,15 @@
+version: '3'  # Docker Composeのバージョン
+services:
+  web:  # コンテナに名前をつける
+    build:
+      context: .
+      dockerfile: "Dockerfile.dev"
+    volumes:
+      - .:/app # ホストPCのカレントディレクトリとコンテナ内のcodeディレクトリを同期させる
+      - python-packages:/root/.local/share
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+
+volumes:
+  python-packages:
