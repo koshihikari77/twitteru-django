@@ -9,7 +9,7 @@ pylint = "*"
 autopep8 = "*"
 django-debug-toolbar = "*"
 [packages]
-django = "==2.2.2" 
+django = "==2.2.4" 
 djangorestframework = "*"
 django-environ = "*"
 django-allauth = "*"
