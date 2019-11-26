@@ -21,8 +21,6 @@ RUN wget https://github.com/progrium/entrykit/releases/download/v${ENTRYKIT_VERS
     && entrykit --symlink
 
 WORKDIR /app
-# ホストPCにあるrequirements.txtをコンテナ内のcodeディレクトリにコピーする
-# コピーしたrequirements.txtを使ってパッケージをインストールする
 
 RUN pip install --upgrade pip && pip install pipenv
 

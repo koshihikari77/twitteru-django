@@ -23,7 +23,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-SECRET_KEY = '*78qidg^^u=($&djk8d)$m)u8s@xge&_6w2vdp3#l@4cm7r$rz'
 ALLOWED_HOSTS = ['*']
 
 
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'bootstrap_modal_forms',
+    'api',
 ]
 
 MIDDLEWARE = [

@@ -9,7 +9,13 @@ services:
       - python-packages:/root/.local/share
     ports:
       - "8000:8000"
-    command: python manage.py runserver 0.0.0.0:8000
-
+    command: python manage.py runserver 0.0.0.0:8000 --settings config.local_settings
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - "dbdata:/var/lib/postgresql/data"
 volumes:
   python-packages:
+  dbdata:
