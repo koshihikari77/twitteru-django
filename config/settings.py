@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = ['*']
-
+SECRET_KEY = '*78qidg^^u=($&djk8d)$m)u8s@xge&_6w2vdp3#l@4cm7r$rz'
 
 # Application definition
 
@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'bootstrap_modal_forms',
-    'api',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +85,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 
 # Password validation
@@ -219,7 +217,7 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
-        #追加
+        # 追加
         'twitteru': {
             'handlers': ['console'],
             'level': 'INFO',

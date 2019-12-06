@@ -7,9 +7,22 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 
-class Profile(models.Model):
-    user = models.ForeignKey(get_user_model(),
-                             on_delete=models.CASCADE)
+class UserProfileManager(models.Manager):
+    user_for_related_fields = True
+
+    def all(self):
+        qs = get_query_set().all()
+        try:
+            if self.instance:  # self.instanceはuser
+                qs = qs.exclude(user=self.instance)
+        except:
+            pass
+        return qs
+
+
+class UserProfile(models.Model):
+    user = models.OnetoOneField(get_user_model(),
+                                related_name='profile')
     nickname = models.CharField(max_length=50, null=True)
     self_introduction = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
@@ -17,35 +30,51 @@ class Profile(models.Model):
     tweet_open_flag = models.BooleanField()
     direct_message_flag = models.BooleanField()
     sensitive_flag = models.BooleanField()
-    followed_num = models.IntegerField()
+    following = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, blank=True, related_name='followed_by')
+    # user.profile.following ユーザーがフォローしているユーザーを返す
+    # user.followed_by ユーザーをフォローしているユーザーを返す
 
 
-class Post(models.Model):
+class TweetManager(models.Manager):
+
+    def like_toggle(self, user, tweet_obj):
+        if user in tweet_obj.liked.all():
+            is_liked = False
+            tweet_obj.liked.remove(user)
+        else:
+            is_liked = True
+            tweet_obj.liked.add(user)
+        return is_liked
+
+
+class Tweet(models.Model):
+    parent = models.ForeignKey("self", blank=True, null=True)
     user = models.ForeignKey(get_user_model(),
                              on_delete=models.CASCADE)
-    posted_date = models.DateTimeField()
-    text = models.CharField(max_length=140)
-    liked_num = models.IntegerField(default=0)
-    replied_num = models.IntegerField(default=0)
-    retweeted_num = models.IntegerField(default=0)
-    reply_flag = models.BooleanField()
+    updated = models.DateTimeField(auto_now=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    content = models.CharField(max_length=140)
+    reply = models.BooleanField(default=False)
+    liked = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, blank=True, related_name='liked')
+
+    objects = TweetManager()
 
     class Meta:
-        ordering = ['-posted_date']
+        ordering = ['timestamp']
 
+    def get_parent(self):
+        the_parent = self
+        if self.parent:
+            the_parent = self.parent
+        return the_parent
 
-class Follow(models.Model):
-    followed_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_user_relation')
-    following_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following_user_relation')
-
-
-class Like(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name='liking_user_relation')
-    post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='liked_post_relation')
+    def get_children(self):
+        parent = self.get_parent()
+        qs = Tweet.objects.filter(parent=parent)
+        qs_parent = Tweet.objects.filter(pk=parent.pk)
+        return (qs | qs_parent)
 
 
 class Reply(models.Model):
