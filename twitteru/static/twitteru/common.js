@@ -57,13 +57,12 @@ $(".like-btn").click(function (e) {
     e.stopPropagation()
     const this_ = $(this);
     const like_cnt = this_.children("span");
-    const likeUrl = this_.attr("data-href-like");
     const post_id = this_.attr("data-post-id");
+    const like_url = "api/twitteru/"+post_id+"/like"
     if (likeUrl) {
         $.ajax({
-            url: likeUrl,
+            url: like_url,
             method: "GET",
-            data: { "status": 1, "post_id": post_id }, //　いいねが押されましたと伝える
             success: function (data) {
                 let change_like = like_cnt.text();
                 console.log(change_like);
