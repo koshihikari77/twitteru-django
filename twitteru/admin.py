@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Post, Profile, Image, Like, Follow, Reply
+from .models import Tweet, UserProfile, Image
 # Register your models here.
 
 """
@@ -14,10 +14,7 @@ class CustomUserAdmin(UserAdmin):
 """
 
 
-admin.site.register(Post)
-admin.site.register(Profile)
-admin.site.register(Like)
-admin.site.register(Follow)
-admin.site.register(Reply)
+admin.site.register(Tweet)
+admin.site.register(UserProfile)
 
 admin.site.register(Image)

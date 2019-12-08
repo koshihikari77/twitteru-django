@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Image
+from .models import Tweet, Image
 
 
 class TweetForm(forms.Form):
@@ -10,5 +10,5 @@ class TweetForm(forms.Form):
 
 class PostForm(forms.ModelForm):
     class Meta:
-        model = Post
-        fields = ('text',)
+        model = Tweet
+        fields = ('content',)

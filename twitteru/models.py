@@ -21,8 +21,8 @@ class UserProfileManager(models.Manager):
 
 
 class UserProfile(models.Model):
-    user = models.OnetoOneField(get_user_model(),
-                                related_name='profile')
+    user = models.OneToOneField(get_user_model(),
+                                related_name='profile', on_delete=models.CASCADE)
     nickname = models.CharField(max_length=50, null=True)
     self_introduction = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
@@ -49,7 +49,8 @@ class TweetManager(models.Manager):
 
 
 class Tweet(models.Model):
-    parent = models.ForeignKey("self", blank=True, null=True)
+    parent = models.ForeignKey(
+        "self", blank=True, null=True, on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(),
                              on_delete=models.CASCADE)
     updated = models.DateTimeField(auto_now=True)
@@ -77,15 +78,8 @@ class Tweet(models.Model):
         return (qs | qs_parent)
 
 
-class Reply(models.Model):
-    replied_post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='replied_post_relation')
-    replying_post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='replying_post_relation')
-
-
 class Image(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Tweet, on_delete=models.CASCADE)
     src = models.ImageField(upload_to='media')
     """
     thumbnail = ImageSpecField(source='src',

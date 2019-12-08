@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from django.utils import timezone
 
-from .models import Post, Like, Follow, Image, Profile, Reply
+from .models import Tweet, Image, UserProfile
 from .forms import TweetForm, PostForm
 
 # Create your views here.
@@ -22,32 +22,23 @@ class UserPageView(generic.DetailView):
     def get_context_data(self, **kwargs):
         user = self.request.user
         context = super().get_context_data(**kwargs)
-        context["liking_post_ids"] = Post.objects.filter(
-            liked_post_relation__user=user).values_list("id", flat=True)
-        context["followed_user_id"] = self.kwargs["pk"]
-        context["following_user_ids"] = get_user_model().objects.filter(
-            following_user_relation__following_user=user).values_list("id", flat=True)
-        context["posts"] = Post.objects.filter(
+        context["tweets"] = Tweet.objects.filter(
             user=self.request.user).filter(reply_flag=False)
 
-        context["like_posts"] = Post.objects.filter(
+        context["like_tweets"] = Tweet.objects.filter(
             liked_post_relation__user=get_user_model().objects.get(id=self.kwargs["pk"]))
         context["form"] = TweetForm()
 
         return context
 
 
-class PostPageView(generic.DetailView):
-    model = Post
+class TweetPageView(generic.DetailView):
+    model = Tweet
     template_name = "twitteru/post_page.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        post = Post.objects.get(id=self.kwargs["pk"])
-        context["replying_posts"] = Post.objects.filter(
-            replying_post_relation__replied_post=post)
-        context["liking_post_ids"] = Post.objects.filter(
-            liked_post_relation__user=self.request.user).values_list("id", flat=True)
+        tweet = Tweet.objects.get(id=self.kwargs["pk"])
         context["form"] = TweetForm()
 
         return context
@@ -60,8 +51,6 @@ class UserHomeView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = TweetForm()
-        context["liking_post_ids"] = Post.objects.filter(
-            liked_post_relation__user=self.request.user).values_list("id", flat=True)
 
         return context
 
